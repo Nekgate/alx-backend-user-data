@@ -1,34 +1,38 @@
 #!/usr/bin/env python3
+"""Authentication module for the API.
 """
-API authentication module
-"""
-
-from flask import request
+import re
 from typing import List, TypeVar
+from flask import request
 
 
 class Auth:
-    """ Authentication """
-
+    """Authentication class.
+    """
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
-        """ Checks if API routes require authentication """
-        if path is None or not excluded_paths:
-            return True
-        for i in excluded_paths:
-            if i.endswith('*') and path.startswith(i[:-1]):
-                return False
-            elif i in {path, path + '/'}:
-                return False
+        """Checks if a path requires authentication.
+        """
+        if path is not None and excluded_paths is not None:
+            for exclusion_path in map(lambda x: x.strip(), excluded_paths):
+                pattern = ''
+                if exclusion_path[-1] == '*':
+                    pattern = '{}.*'.format(exclusion_path[0:-1])
+                elif exclusion_path[-1] == '/':
+                    pattern = '{}/*'.format(exclusion_path[0:-1])
+                else:
+                    pattern = '{}/*'.format(exclusion_path)
+                if re.match(pattern, path):
+                    return False
         return True
 
     def authorization_header(self, request=None) -> str:
-        """ Checks if Authorization request header is present
-        & contains values """
-        if request is None or "Authorization" not in request.headers:
-            return None
-        else:
-            return request.headers.get('Authorization')
+        """Gets the authorization header field from the request.
+        """
+        if request is not None:
+            return request.headers.get('Authorization', None)
+        return None
 
     def current_user(self, request=None) -> TypeVar('User'):
-        """ placeholder """
+        """Gets the current user from the request.
+        """
         return None

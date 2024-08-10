@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
-"""Define class Session
+"""
+Define class SessionDButh
 """
 
 from .session_exp_auth import SessionExpAuth
@@ -14,9 +15,10 @@ class SessionDBAuth(SessionExpAuth):
     """
 
     def create_session(self, user_id=None):
-        """Create a Session ID for a user_id
+        """
+        Create a Session ID for a user_id
         Args:
-            user_id (str): user id
+           user_id (str): user id
         """
         # Create a session ID for the user_id
         session_id = super().create_session(user_id)

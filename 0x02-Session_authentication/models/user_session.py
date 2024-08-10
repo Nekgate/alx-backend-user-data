@@ -7,12 +7,14 @@ from models.base import Base
 from datetime import datetime
 
 
-class UserSession(base):
-    """ UserSession model that inherits from Base
+class UserSession(Base):
+    """
+    UserSession model that inherits from Base
     """
 
     def __init__(self, *args: list, **kwargs: dict):
-        """Initialize the UserSession instance.
+        """
+        Initialize the UserSession instance
         """
         super().__init__(*args, **kwargs)
         self.user_id = kwargs.get('user_id')

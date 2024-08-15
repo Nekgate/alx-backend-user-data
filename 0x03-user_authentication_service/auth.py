@@ -54,7 +54,9 @@ class Auth:
             return False
 
     def create_session(self, email: str) -> str:
-        """ Creates session ID using UUID, finds user by email """
+        """ Creates session ID using UUID.
+        Finds user by email
+        """
         try:
             found_user = self._db.find_user_by(email=email)
         except NoResultFound:

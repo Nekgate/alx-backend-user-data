@@ -77,6 +77,21 @@ def new_user() -> str:
         AUTH.destoy_session(user.id)
         return redirect('/')
 
+    @app.route('/profile', method=['GET'], strict_slashes=False)
+    def profile() -> str:
+        """GET /profiles
+        Return:
+            - find user using session_id
+            - 403 if session ID is valid
+        """
+        user_cookie = request.cookies.get("session_id", None)
+        if user_cookie is None:
+            abort(403)
+        user = AUTH.get_user_from_session_id(user_cookie)
+        if user is None:
+            abort(403)
+        return jsonify({"email": user.email}), 200
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)

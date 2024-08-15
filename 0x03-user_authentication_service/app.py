@@ -56,7 +56,7 @@ def new_user() -> str:
         valid_user = AUTH.valid_login(email, password)
 
         if not valid_user:
-            abort(404)
+            abort(401)
         session_id = AUTH.create_session(email)
         message = {"email": email, "message": "logged in"}
         response = jsonify(message)
